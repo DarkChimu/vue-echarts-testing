@@ -1,5 +1,10 @@
 <template>
-  <v-chart ref="vChart" class="chart" :option="config" :manual-update="true" />
+  <v-chart
+    ref="vChart"
+    class="chart"
+    :option="config"
+    :loading="loading"
+  />
 </template>
 
 <script>
@@ -29,7 +34,7 @@ use([
   ToolboxComponent,
 ])
 export default {
-  name: 'ReactiveChart',
+  name: 'Chart',
   components: {
     VChart,
   },
@@ -53,8 +58,16 @@ export default {
       default: () => null,
     },
   },
+
+  data() {
+    return {
+      loading: false,
+    }
+  },
+  mounted() {},
   computed: {
     config: function () {
+      this.loading = true
       //console.log('=>', this.options)
       let currentConfig = { ...configs[this.type] }
 
@@ -71,7 +84,8 @@ export default {
           lazyUpdate: true,
         })
       }
-        return currentConfig
+      this.loading = false
+      return currentConfig
     },
   },
 
